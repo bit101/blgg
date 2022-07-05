@@ -32,6 +32,6 @@ func main() {
 
 func renderFrame(context *blgg.Context, width, height, percent float64) {
 	context.BlackOnWhite()
-	x := blmath.LerpSin(percent, 0, width)
-	context.FillRectangle(x, height/2, 50, 50)
+	x := blmath.LerpSin(percent, 0, width-50)
+	context.FillRectangle(x, height/2-25, 50, 50)
 }
