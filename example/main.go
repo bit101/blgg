@@ -1,23 +1,14 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/bit101/blgg/blcolor"
 	"github.com/bit101/blgg/blgg"
 	"github.com/bit101/blgg/blmath"
-	"github.com/bit101/blgg/geom"
 	"github.com/bit101/blgg/render"
 	"github.com/bit101/blgg/util"
 )
 
 func main() {
-	p0 := geom.NewPoint(100, 200)
-	p1 := geom.NewPoint(100, 200.000001)
-	fmt.Printf("p0.Equals(p0) = %+v\n", p0.Equals(p1))
-}
-
-func main2() {
 	target := render.SpriteSheet
 
 	switch target {
