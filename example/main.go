@@ -1,18 +1,33 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/bit101/blgg/blcolor"
 	"github.com/bit101/blgg/blgg"
 	"github.com/bit101/blgg/blmath"
+	"github.com/bit101/blgg/geom"
 	"github.com/bit101/blgg/render"
 	"github.com/bit101/blgg/util"
 )
 
 func main() {
-	target := render.Gif
+	p0 := geom.NewPoint(100, 200)
+	p1 := geom.NewPoint(100, 200.000001)
+	fmt.Printf("p0.Equals(p0) = %+v\n", p0.Equals(p1))
+}
+
+func main2() {
+	target := render.SpriteSheet
 
 	switch target {
 	case render.Image:
 		render.RenderImage(800, 800, "out.png", renderFrame, 0.5)
+		util.ViewImage("out.png")
+		break
+
+	case render.SpriteSheet:
+		render.RenderSpriteSheet(40, 40, blcolor.White(), "out.png", 25, renderSpriteSheetFrame)
 		util.ViewImage("out.png")
 		break
 
@@ -32,6 +47,12 @@ func main() {
 
 func renderFrame(context *blgg.Context, width, height, percent float64) {
 	context.BlackOnWhite()
-	x := blmath.LerpSin(percent, 0, width-50)
-	context.FillRectangle(x, height/2-25, 50, 50)
+	r := blmath.LerpSin(percent, 0, width/2)
+	context.FillCircle(width/2, height/2, r)
+}
+
+func renderSpriteSheetFrame(context *blgg.Context, width, height, percent float64) {
+	context.SetBlack()
+	r := blmath.LerpSin(percent, 2, width*0.45)
+	context.FillCircle(width/2, height/2, r)
 }
