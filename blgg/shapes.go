@@ -2,9 +2,9 @@ package blgg
 
 import (
 	"math"
-	"math/rand"
 
 	"github.com/bit101/blgg/geom"
+	"github.com/bit101/blgg/random"
 )
 
 ////////////////////
@@ -76,9 +76,10 @@ func (c *Context) FractalLine(x1, y1, x2, y2, roughness float64, iterations int)
 		for j, point := range path {
 			newPath = append(newPath, geom.NewPoint(point.X, point.Y))
 			if j < len(path)-1 {
-				x := (point.X+path[j+1].X)/2.0 + rand.Float64()*offset*2.0 - offset
-				y := (point.Y+path[j+1].Y)/2.0 + rand.Float64()*offset*2.0 - offset
-				newPath = append(newPath, geom.NewPoint(x, y))
+				mid := geom.MidPoint(point, path[j+1])
+				mid.X += random.FloatRange(-offset, offset)
+				mid.Y += random.FloatRange(-offset, offset)
+				newPath = append(newPath, mid)
 			}
 		}
 		offset *= roughness
@@ -199,17 +200,14 @@ func (c *Context) LineThrough(x0, y0, x1, y1, overlap float64) {
 ////////////////////
 func (c *Context) MultiCurve(points []*geom.Point) {
 	c.MoveTo(points[0].X, points[0].Y)
-	c.LineTo(
-		(points[0].X+points[1].X)/2.0,
-		(points[0].Y+points[1].Y)/2.0,
-	)
+	mid := geom.MidPoint(points[0], points[1])
+	c.LineTo(mid.X, mid.Y)
 	i := 1
 	for i < len(points)-1 {
 		p0 := points[i]
 		p1 := points[i+1]
-		midx := (p0.X + p1.X) / 2.0
-		midy := (p0.Y + p1.Y) / 2.0
-		c.QuadraticTo(p0.X, p0.Y, midx, midy)
+		mid := geom.MidPoint(p0, p1)
+		c.QuadraticTo(p0.X, p0.Y, mid.X, mid.Y)
 		i++
 
 	}
@@ -228,17 +226,15 @@ func (c *Context) StrokeMultiCurve(points []*geom.Point) {
 func (c *Context) MultiLoop(points []*geom.Point) {
 	pA := points[0]
 	pZ := points[len(points)-1]
-	mid1x := (pZ.X + pA.X) / 2.0
-	mid1y := (pZ.Y + pA.Y) / 2.0
-	c.MoveTo(mid1x, mid1y)
+	mid1 := geom.MidPoint(pZ, pA)
+	c.MoveTo(mid1.X, mid1.Y)
 	for i := 0; i < len(points)-1; i++ {
 		p0 := points[i]
 		p1 := points[i+1]
-		midx := (p0.X + p1.X) / 2.0
-		midy := (p0.Y + p1.Y) / 2.0
-		c.QuadraticTo(p0.X, p0.Y, midx, midy)
+		mid := geom.MidPoint(p0, p1)
+		c.QuadraticTo(p0.X, p0.Y, mid.X, mid.Y)
 	}
-	c.QuadraticTo(pZ.X, pZ.Y, mid1x, mid1y)
+	c.QuadraticTo(pZ.X, pZ.Y, mid1.X, mid1.Y)
 }
 
 // FillMultiLoop draws a filled, smooth, closed curve between a set of points.

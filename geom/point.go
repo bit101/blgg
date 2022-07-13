@@ -26,6 +26,11 @@ func LerpPoint(t float64, p0 *Point, p1 *Point) *Point {
 	)
 }
 
+// MidPoint gets the point exactly in the middle of two points.
+func MidPoint(p0 *Point, p1 *Point) *Point {
+	return LerpPoint(0.5, p0, p1)
+}
+
 // RandomPoint returns a point within the rectangle defined in the params x, y, w, h.
 func RandomPoint(x, y, w, h float64) *Point {
 	return NewPoint(

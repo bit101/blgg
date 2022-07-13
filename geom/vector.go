@@ -7,24 +7,12 @@ type Vector struct {
 	V float64
 }
 
-func IsCloseToOne(val float64) bool {
-	return AreClose(val, 1.0)
-}
-
-func IsCloseToZero(val float64) bool {
-	return AreClose(val, 0)
-}
-
-func AreClose(val0, val1 float64) bool {
-	return math.Abs(val0-val1) < 1e-5
-}
-
 func NewVector(u, v float64) *Vector {
 	return &Vector{u, v}
 }
 
-func NewVectorBetwen(p0, p1 *Point) *Vector {
-	return p0.Sub(p1)
+func NewVectorBetween(p0, p1 *Point) *Vector {
+	return p1.Sub(p0)
 }
 
 // NewVersor return a vector of unit length
@@ -34,7 +22,7 @@ func NewVersor(u, v float64) *Vector {
 
 // NewVersorBetween return a vector of unit length
 func NewVersorBetween(p0, p1 *Point) *Vector {
-	return NewVersorBetween(p0, p1).Normalized()
+	return NewVectorBetween(p0, p1).Normalized()
 }
 
 func (v *Vector) Add(w *Vector) *Vector {
@@ -113,4 +101,8 @@ func (v *Vector) Equals(w *Vector) bool {
 		return true
 	}
 	return AreClose(v.U, w.U) && AreClose(v.V, w.V)
+}
+
+func (v *Vector) Perpendicular() *Vector {
+	return NewVector(-v.V, v.U)
 }
