@@ -42,6 +42,28 @@ func (c *Context) StrokeArrow(x0, y0, x1, y1, pointSize float64) {
 	c.Stroke()
 }
 
+func (c *Context) DrawDoubleArrow(x0, y0, x1, y1, pointSize float64) {
+	angle := math.Atan2(y1-y0, x1-x0)
+	length := math.Hypot(x1-x0, y1-y0)
+	c.Push()
+	c.Translate(x0, y0)
+	c.Rotate(angle)
+	c.MoveTo(0, 0)
+	c.LineTo(length, 0)
+	c.LineTo(length-pointSize, -pointSize*0.6)
+	c.MoveTo(length, 0)
+	c.LineTo(length-pointSize, pointSize*0.6)
+	c.MoveTo(pointSize, pointSize*0.6)
+	c.LineTo(0, 0)
+	c.LineTo(pointSize, -pointSize*0.6)
+	c.Pop()
+}
+
+func (c *Context) StrokeDoubleArrow(x0, y0, x1, y1, pointSize float64) {
+	c.DrawDoubleArrow(x0, y0, x1, y1, pointSize)
+	c.Stroke()
+}
+
 ////////////////////
 // CIRCLE
 ////////////////////
@@ -190,6 +212,7 @@ func (c *Context) FillHexGrid(x, y, w, h, res0, res1 float64) {
 	c.Clip()
 	c.HexGrid(x, y, w, h, res0, res1)
 	c.Fill()
+	c.ResetClip()
 	c.Pop()
 }
 
@@ -199,12 +222,18 @@ func (c *Context) StrokeHexGrid(x, y, w, h, res0, res1 float64) {
 	c.Clip()
 	c.HexGrid(x, y, w, h, res0, res1)
 	c.Stroke()
+	c.ResetClip()
 	c.Pop()
 }
 
 ////////////////////
-// LINE THROUGH
+// LINE
 ////////////////////
+
+// func (c *Context) DrawLine(line *geom.Line) {
+// 	// tbd
+// }
+
 func (c *Context) LineThrough(x0, y0, x1, y1, overlap float64) {
 	c.Push()
 	c.Translate(x0, y0)
@@ -370,7 +399,8 @@ func (c *Context) StrokeRoundedRectangle(x, y, w, h, r float64) {
 // SEGMENT
 ////////////////////
 func (c *Context) DrawSegment(s *geom.Segment) {
-	c.DrawLine(s.Start.X, s.Start.Y, s.End.X, s.End.Y)
+	c.MoveTo(s.Start.X, s.Start.Y)
+	c.LineTo(s.End.X, s.End.Y)
 }
 
 func (c *Context) StrokeSegment(s *geom.Segment) {
@@ -424,4 +454,9 @@ func (c *Context) DrawVectorChain(vectors []*geom.Vector, p *geom.Point, pointSi
 		c.DrawVectorAt(p, v, pointSize)
 		p = p.Displaced(v, 1)
 	}
+}
+
+func (c *Context) StrokeVectorChain(vectors []*geom.Vector, p *geom.Point, pointSize float64) {
+	c.DrawVectorChain(vectors, p, pointSize)
+	c.Stroke()
 }
