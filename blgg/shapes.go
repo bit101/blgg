@@ -274,14 +274,17 @@ func (c *Context) StrokePath(points []*geom.Point, close bool) {
 ////////////////////
 // POINT
 ////////////////////
-func (c *Context) FillPoint(x, y, r float64) {
-	c.DrawPoint(x, y, r)
-	c.Fill()
+func (c *Context) DrawPoint(p *geom.Point, radius float64) {
+	c.FillCircle(p.X, p.Y, radius)
+}
+
+func (c *Context) StrokePoint(p *geom.Point, radius float64) {
+	c.StrokeCircle(p.X, p.Y, radius)
 }
 
 func (c *Context) Points(points []*geom.Point, radius float64) {
 	for _, point := range points {
-		c.FillPoint(point.X, point.Y, radius)
+		c.DrawPoint(point, radius)
 	}
 }
 
@@ -334,6 +337,14 @@ func (c *Context) FillRoundedRectangle(x, y, w, h, r float64) {
 
 func (c *Context) StrokeRoundedRectangle(x, y, w, h, r float64) {
 	c.DrawRoundedRectangle(x, y, w, h, r)
+	c.Stroke()
+}
+
+////////////////////
+// SEGMENT
+////////////////////
+func (c *Context) DrawSegment(s *geom.Segment) {
+	c.DrawLine(s.Start.X, s.Start.Y, s.End.X, s.End.Y)
 	c.Stroke()
 }
 

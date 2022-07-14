@@ -67,6 +67,34 @@ func (p *Point) Distance(q *Point) float64 {
 	return math.Hypot(p.X-q.X, p.Y-q.Y)
 }
 
+func (p *Point) Translate(tx, ty float64) {
+	p.X += tx
+	p.Y += ty
+}
+
+func (p *Point) Scale(sx, sy float64) {
+	p.X *= sx
+	p.Y *= sy
+}
+
+func (p *Point) Rotate(radians float64) {
+	cos := math.Cos(radians)
+	sin := math.Sin(radians)
+	x := p.X*cos - p.Y*sin
+	y := p.Y*cos + p.X*sin
+	p.X, p.Y = x, y
+}
+
+func (p *Point) RotateAround(q *Point, radians float64) {
+	x := p.X - q.X
+	y := p.Y - q.Y
+	cos := math.Cos(radians)
+	sin := math.Sin(radians)
+	xx := x*cos - y*sin
+	yy := y*cos + x*sin
+	p.X, p.Y = q.X+xx, q.Y+yy
+}
+
 func (p *Point) Add(q *Point) *Point {
 	return NewPoint(p.X+q.X, p.Y+q.Y)
 }
