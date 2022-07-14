@@ -21,6 +21,28 @@ func (c *Context) StrokeArc(x, y, r, a1, a2 float64) {
 }
 
 ////////////////////
+// ARROW
+////////////////////
+func (c *Context) DrawArrow(x0, y0, x1, y1, pointSize float64) {
+	angle := math.Atan2(y1-y0, x1-x0)
+	length := math.Hypot(x1-x0, y1-y0)
+	c.Push()
+	c.Translate(x0, y0)
+	c.Rotate(angle)
+	c.MoveTo(0, 0)
+	c.LineTo(length, 0)
+	c.LineTo(length-pointSize, -pointSize*0.6)
+	c.MoveTo(length, 0)
+	c.LineTo(length-pointSize, pointSize*0.6)
+	c.Pop()
+}
+
+func (c *Context) StrokeArrow(x0, y0, x1, y1, pointSize float64) {
+	c.DrawArrow(x0, y0, x1, y1, pointSize)
+	c.Stroke()
+}
+
+////////////////////
 // CIRCLE
 ////////////////////
 func (c *Context) FillCircle(x, y, r float64) {
@@ -275,6 +297,10 @@ func (c *Context) StrokePath(points []*geom.Point, close bool) {
 // POINT
 ////////////////////
 func (c *Context) DrawPoint(p *geom.Point, radius float64) {
+	c.DrawCircle(p.X, p.Y, radius)
+}
+
+func (c *Context) FillPoint(p *geom.Point, radius float64) {
 	c.FillCircle(p.X, p.Y, radius)
 }
 
@@ -345,6 +371,10 @@ func (c *Context) StrokeRoundedRectangle(x, y, w, h, r float64) {
 ////////////////////
 func (c *Context) DrawSegment(s *geom.Segment) {
 	c.DrawLine(s.Start.X, s.Start.Y, s.End.X, s.End.Y)
+}
+
+func (c *Context) StrokeSegment(s *geom.Segment) {
+	c.DrawSegment(s)
 	c.Stroke()
 }
 
@@ -375,4 +405,23 @@ func (c *Context) StrokeStar(x, y, r0, r1 float64, points int, rotation float64)
 func (c *Context) FillStar(x, y, r0, r1 float64, points int, rotation float64) {
 	c.Star(x, y, r0, r1, points, rotation)
 	c.Fill()
+}
+
+////////////////////
+// VECTOR
+////////////////////
+func (c *Context) DrawVectorAt(p *geom.Point, v *geom.Vector, pointSize float64) {
+	c.DrawArrow(p.X, p.Y, p.X+v.U, p.Y+v.V, pointSize)
+}
+
+func (c *Context) StrokeVectorAt(p *geom.Point, v *geom.Vector, pointSize float64) {
+	c.DrawVectorAt(p, v, pointSize)
+	c.Stroke()
+}
+
+func (c *Context) DrawVectorChain(vectors []*geom.Vector, p *geom.Point, pointSize float64) {
+	for _, v := range vectors {
+		c.DrawVectorAt(p, v, pointSize)
+		p = p.Displaced(v, 1)
+	}
 }

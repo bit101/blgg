@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	Image = iota
+	None = iota
+	Image
 	Gif
 	Video
 	SpriteSheet

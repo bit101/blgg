@@ -15,9 +15,17 @@ func NewVectorBetween(p0, p1 *Point) *Vector {
 	return p1.Sub(p0)
 }
 
+func NewVectorPolar(angle, length float64) *Vector {
+	return NewVector(math.Cos(angle)*length, math.Sin(angle)*length)
+}
+
 // NewVersor return a vector of unit length
 func NewVersor(u, v float64) *Vector {
 	return NewVector(u, v).Normalized()
+}
+
+func NewVersorPolar(angle float64) *Vector {
+	return NewVectorPolar(angle, 1)
 }
 
 // NewVersorBetween return a vector of unit length
