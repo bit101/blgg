@@ -61,7 +61,7 @@ func (s *Segment) DistanceTo(p *Point) float64 {
 
 func (s *Segment) Intersection(z *Segment) *Point {
 	d1, d2 := s.DirectionVector(), z.DirectionVector()
-	if d1.IsParallel(d2) {
+	if d1.IsParallelTo(d2) {
 		return nil
 	}
 
@@ -83,22 +83,26 @@ func (s *Segment) Equals(z *Segment) bool {
 	return s.Start.Equals(z.Start) && s.End.Equals(z.End)
 }
 
-func (s Segment) Translate(tx, ty float64) {
+func (s *Segment) Translate(tx, ty float64) {
 	s.Start.Translate(tx, ty)
 	s.End.Translate(tx, ty)
 }
 
-func (s Segment) Scale(sx, sy float64) {
+func (s *Segment) Scale(sx, sy float64) {
 	s.Start.Scale(sx, sy)
 	s.End.Scale(sx, sy)
 }
 
-func (s Segment) Rotate(radians float64) {
+func (s *Segment) Rotate(radians float64) {
 	s.Start.Rotate(radians)
 	s.End.Rotate(radians)
 }
 
-func (s Segment) RotateAround(p *Point, radians float64) {
+func (s *Segment) RotateAround(p *Point, radians float64) {
 	s.Start.RotateAround(p, radians)
 	s.End.RotateAround(p, radians)
+}
+
+func (s *Segment) Bisector() *Line {
+	return NewLine(s.Middle(), s.NormalVersor())
 }

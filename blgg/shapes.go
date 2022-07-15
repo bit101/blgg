@@ -230,9 +230,19 @@ func (c *Context) StrokeHexGrid(x, y, w, h, res0, res1 float64) {
 // LINE
 ////////////////////
 
-// func (c *Context) DrawLine(line *geom.Line) {
-// 	// tbd
-// }
+func (c *Context) DrawLine(line *geom.Line, length float64) {
+	c.Push()
+	c.Translate(line.Base.X, line.Base.Y)
+	c.Rotate(math.Atan2(line.Direction.V, line.Direction.U))
+	c.MoveTo(-length/2, 0)
+	c.LineTo(length/2, 0)
+	c.Pop()
+}
+
+func (c *Context) StrokeLine(line *geom.Line, length float64) {
+	c.DrawLine(line, length)
+	c.Stroke()
+}
 
 func (c *Context) LineThrough(x0, y0, x1, y1, overlap float64) {
 	c.Push()

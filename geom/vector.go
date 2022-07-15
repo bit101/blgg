@@ -69,11 +69,11 @@ func (v *Vector) Cross(w *Vector) float64 {
 	return v.U*w.V - v.V*w.U
 }
 
-func (v *Vector) IsParallel(w *Vector) bool {
+func (v *Vector) IsParallelTo(w *Vector) bool {
 	return IsCloseToZero(v.Cross(w))
 }
 
-func (v *Vector) IsPerpendicular(w *Vector) bool {
+func (v *Vector) IsPerpendicularTo(w *Vector) bool {
 	return IsCloseToZero(v.Dot(w))
 }
 

@@ -31,7 +31,7 @@ func RenderFrames(width, height float64, numFrames int, frames string, renderFra
 	context := blgg.NewContext(int(width), int(height))
 	for frame := 0; frame < numFrames; frame++ {
 		percent := float64(frame) / float64(numFrames)
-		// fmt.Printf("\r%f", percent)
+		fmt.Printf("\r%f", percent)
 		renderFrameFunc(context, width, height, percent)
 		context.SavePNG(fmt.Sprintf("%s/frame_%04d.png", frames, frame))
 	}
