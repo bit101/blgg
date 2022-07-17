@@ -1,8 +1,8 @@
 package blgg
 
 import (
-	"github.com/bit101/blgg/blcolor"
-	"github.com/bit101/blgg/random"
+	"github.com/bit101/bitlib/blcolor"
+	"github.com/bit101/bitlib/random"
 	"github.com/fogleman/gg"
 )
 

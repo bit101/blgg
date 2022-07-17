@@ -5,8 +5,8 @@ import (
 	"math"
 	"os"
 
-	"github.com/bit101/blgg/blcolor"
-	"github.com/bit101/blgg/blgg"
+	"github.com/bit101/bitlib/blcolor"
+	"github.com/bit101/blgg"
 )
 
 const (

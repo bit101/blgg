@@ -4,14 +4,15 @@ bitlib library for `gg` (https://github.com/fogleman/gg)
 
 Contains:
 
-* Custom drawing methods beyond `gg` built-ins
-* Color library
-* Easing library (hello Mr. Penner!)
-* Geom library (just points)
-* Math library
-* Noise library (Perlin and Simplex)
-* Random library (PRNG)
-* Render and util libraries (create and view images, gifs, videos - requires a few external programs)
+* Tons of custom drawing methods beyond `gg` built-ins
+* Render library to create:
+  * images
+  * gifs
+  * videos
+  * spritesheets
+* Utilities for viewing images and videos
+
+Integrates with http://github.com/bit101/bitlib which provides many useful libraries.
 
 Ported from `blgo` (https://github.com/bit101/blgo) which used a fork of `go-cairo` (http://github.com/bit101/go-cairo)
 
@@ -21,3 +22,4 @@ Ported from `blgo` (https://github.com/bit101/blgo) which used a fork of `go-cai
 
     go get github.com/fogleman/gg
     go get github.com/bit101/blgg
+    go get github.com/bit101/bitlib

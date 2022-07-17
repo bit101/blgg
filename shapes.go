@@ -3,7 +3,7 @@ package blgg
 import (
 	"math"
 
-	"github.com/bit101/blgg/random"
+	"github.com/bit101/bitlib/random"
 	"github.com/fogleman/gg"
 )
 
