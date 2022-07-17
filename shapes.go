@@ -3,17 +3,9 @@ package blgg
 import (
 	"math"
 
+	"github.com/bit101/bitlib/geom"
 	"github.com/bit101/bitlib/random"
-	"github.com/fogleman/gg"
 )
-
-func NewPoint(x, y float64) *gg.Point {
-	return &gg.Point{X: x, Y: y}
-}
-
-func MidPoint(p0, p1 *gg.Point) *gg.Point {
-	return NewPoint((p0.X+p1.X)/2, (p0.Y+p1.Y)/2)
-}
 
 ////////////////////
 // ARC
@@ -119,16 +111,16 @@ func (c *Context) FractalLine(x1, y1, x2, y2, roughness float64, iterations int)
 	dy := y2 - y1
 	offset := math.Sqrt(dx*dx+dy*dy) * 0.15
 
-	var path []*gg.Point
-	path = append(path, NewPoint(x1, y1))
-	path = append(path, NewPoint(x2, y2))
+	var path []*geom.Point
+	path = append(path, geom.NewPoint(x1, y1))
+	path = append(path, geom.NewPoint(x2, y2))
 
 	for i := 0; i < iterations; i++ {
-		var newPath []*gg.Point
+		var newPath []*geom.Point
 		for j, point := range path {
-			newPath = append(newPath, NewPoint(point.X, point.Y))
+			newPath = append(newPath, geom.NewPoint(point.X, point.Y))
 			if j < len(path)-1 {
-				mid := MidPoint(point, path[j+1])
+				mid := geom.MidPoint(point, path[j+1])
 				mid.X += random.FloatRange(-offset, offset)
 				mid.Y += random.FloatRange(-offset, offset)
 				newPath = append(newPath, mid)
@@ -191,13 +183,13 @@ func (c *Context) Heart(x, y, w, h, r float64) {
 	c.Push()
 	c.Translate(x, y)
 	c.Rotate(r)
-	var path []*gg.Point
+	var path []*geom.Point
 	res := math.Sqrt(w * h)
 	for i := 0.0; i < res; i++ {
 		a := math.Pi * 2 * i / res
 		x := w * math.Pow(math.Sin(a), 3.0)
 		y := h * (0.8125*math.Cos(a) - 0.3125*math.Cos(2.0*a) - 0.125*math.Cos(3.0*a) - 0.0625*math.Cos(4.0*a))
-		path = append(path, NewPoint(x, -y))
+		path = append(path, geom.NewPoint(x, -y))
 	}
 	c.Path(path)
 	c.Pop()
@@ -278,15 +270,15 @@ func (c *Context) LineThrough(x0, y0, x1, y1, overlap float64) {
 ////////////////////
 // MULTI CURVE
 ////////////////////
-func (c *Context) MultiCurve(points []*gg.Point) {
+func (c *Context) MultiCurve(points []*geom.Point) {
 	c.MoveTo(points[0].X, points[0].Y)
-	mid := MidPoint(points[0], points[1])
+	mid := geom.MidPoint(points[0], points[1])
 	c.LineTo(mid.X, mid.Y)
 	i := 1
 	for i < len(points)-1 {
 		p0 := points[i]
 		p1 := points[i+1]
-		mid := MidPoint(p0, p1)
+		mid := geom.MidPoint(p0, p1)
 		c.QuadraticTo(p0.X, p0.Y, mid.X, mid.Y)
 		i++
 
@@ -295,7 +287,7 @@ func (c *Context) MultiCurve(points []*gg.Point) {
 	c.LineTo(p.X, p.Y)
 }
 
-func (c *Context) StrokeMultiCurve(points []*gg.Point) {
+func (c *Context) StrokeMultiCurve(points []*geom.Point) {
 	c.MultiCurve(points)
 	c.Stroke()
 }
@@ -303,28 +295,28 @@ func (c *Context) StrokeMultiCurve(points []*gg.Point) {
 ////////////////////
 // MULTI LOOP
 ////////////////////
-func (c *Context) MultiLoop(points []*gg.Point) {
+func (c *Context) MultiLoop(points []*geom.Point) {
 	pA := points[0]
 	pZ := points[len(points)-1]
-	mid1 := MidPoint(pZ, pA)
+	mid1 := geom.MidPoint(pZ, pA)
 	c.MoveTo(mid1.X, mid1.Y)
 	for i := 0; i < len(points)-1; i++ {
 		p0 := points[i]
 		p1 := points[i+1]
-		mid := MidPoint(p0, p1)
+		mid := geom.MidPoint(p0, p1)
 		c.QuadraticTo(p0.X, p0.Y, mid.X, mid.Y)
 	}
 	c.QuadraticTo(pZ.X, pZ.Y, mid1.X, mid1.Y)
 }
 
 // FillMultiLoop draws a filled, smooth, closed curve between a set of points.
-func (c *Context) FillMultiLoop(points []*gg.Point) {
+func (c *Context) FillMultiLoop(points []*geom.Point) {
 	c.MultiLoop(points)
 	c.Fill()
 }
 
 // StrokeMultiLoop draws a stroked, smooth, closed curve between a set of points.
-func (c *Context) StrokeMultiLoop(points []*gg.Point) {
+func (c *Context) StrokeMultiLoop(points []*geom.Point) {
 	c.MultiLoop(points)
 	c.Stroke()
 }
@@ -332,18 +324,18 @@ func (c *Context) StrokeMultiLoop(points []*gg.Point) {
 ////////////////////
 // PATH
 ////////////////////
-func (c *Context) Path(points []*gg.Point) {
+func (c *Context) Path(points []*geom.Point) {
 	for _, point := range points {
 		c.LineTo(point.X, point.Y)
 	}
 }
 
-func (c *Context) FillPath(points []*gg.Point) {
+func (c *Context) FillPath(points []*geom.Point) {
 	c.Path(points)
 	c.Fill()
 }
 
-func (c *Context) StrokePath(points []*gg.Point, close bool) {
+func (c *Context) StrokePath(points []*geom.Point, close bool) {
 	c.Path(points)
 	if close {
 		c.ClosePath()
@@ -364,7 +356,7 @@ func (c *Context) FillPoint(x, y, r float64) {
 	c.Fill()
 }
 
-func (c *Context) Points(points []*gg.Point, radius float64) {
+func (c *Context) Points(points []*geom.Point, radius float64) {
 	for _, point := range points {
 		c.FillPoint(point.X, point.Y, radius)
 	}

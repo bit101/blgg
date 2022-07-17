@@ -2,6 +2,7 @@ package blgg
 
 import (
 	"github.com/bit101/bitlib/blcolor"
+	"github.com/bit101/bitlib/geom"
 	"github.com/bit101/bitlib/random"
 	"github.com/fogleman/gg"
 )
@@ -20,9 +21,9 @@ func (c *Context) TranslateCenter() {
 	c.Translate(center.X, center.Y)
 }
 
-func (c *Context) Center() *gg.Point {
+func (c *Context) Center() *geom.Point {
 	w, h := c.Size()
-	return NewPoint(w/2, h/2)
+	return geom.NewPoint(w/2, h/2)
 }
 
 func (c *Context) Size() (float64, float64) {
