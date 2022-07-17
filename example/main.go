@@ -39,6 +39,7 @@ func renderFrame(context *blgg.Context, width, height, percent float64) {
 	context.BlackOnWhite()
 	context.Push()
 	context.TranslateCenter()
+	context.DrawAxes()
 	r := blmath.LerpSin(percent, 0, width/2)
 	context.FillCircle(0, 0, r)
 	context.Pop()

@@ -165,6 +165,26 @@ func (c *Context) Grid(x, y, w, h, xres, yres float64) {
 }
 
 ////////////////////
+// GUIDES
+////////////////////
+func (c *Context) DrawAxes() {
+	w, h := c.Size()
+	c.MoveTo(0, -h)
+	c.LineTo(0, h)
+	c.MoveTo(-w, 0)
+	c.LineTo(w, 0)
+	c.Stroke()
+}
+
+func (c *Context) DrawOrigin(size float64) {
+	c.MoveTo(0, -size/2)
+	c.LineTo(0, size/2)
+	c.MoveTo(-size/2, 0)
+	c.LineTo(size/2, 0)
+	c.Stroke()
+}
+
+////////////////////
 // HEART
 ////////////////////
 func (c *Context) Heart(x, y, w, h, r float64) {
@@ -387,6 +407,30 @@ func (c *Context) FillRegularPolygon(n int, x, y, r, rot float64) {
 func (c *Context) StrokeRegularPolygon(n int, x, y, r, rot float64) {
 	c.DrawRegularPolygon(n, x, y, r, rot)
 	c.Stroke()
+}
+
+////////////////////
+// RIGHT TRIANGLE
+////////////////////
+func (c *Context) DrawRightTriangle(x, y, w, h, r float64) {
+	c.Push()
+	c.Translate(x, y)
+	c.Rotate(r)
+	c.MoveTo(0, 0)
+	c.LineTo(w, 0)
+	c.LineTo(0, h)
+	c.LineTo(0, 0)
+	c.Pop()
+}
+
+func (c *Context) StrokeRightTriangle(x, y, w, h, r float64) {
+	c.DrawRightTriangle(x, y, w, h, r)
+	c.Stroke()
+}
+
+func (c *Context) FillRightTriangle(x, y, w, h, r float64) {
+	c.DrawRightTriangle(x, y, w, h, r)
+	c.Fill()
 }
 
 ////////////////////
