@@ -60,3 +60,57 @@ func (c *Context) StrokeGeomLine(l *geom.Line, length float64) {
 	c.DrawGeomLine(l, length)
 	c.Stroke()
 }
+
+//////////////////
+// POLYGON
+//////////////////
+func (c *Context) DrawGeomPolygon(p *geom.Polygon) {
+	c.MoveTo(p.Vertices[0].X, p.Vertices[0].Y)
+	for i := 1; i < len(p.Vertices); i++ {
+		c.LineTo(p.Vertices[i].X, p.Vertices[i].Y)
+	}
+	c.LineTo(p.Vertices[0].X, p.Vertices[0].Y)
+}
+
+func (c *Context) StrokeGeomPolygon(p *geom.Polygon) {
+	c.DrawGeomPolygon(p)
+	c.Stroke()
+}
+func (c *Context) FillGeomPolygon(p *geom.Polygon) {
+	c.DrawGeomPolygon(p)
+	c.Fill()
+}
+
+//////////////////
+// RECT
+//////////////////
+func (c *Context) DrawGeomRect(r *geom.Rect) {
+	c.DrawRectangle(r.Origin.X, r.Origin.Y, r.Size.Width, r.Size.Height)
+}
+
+func (c *Context) StrokeGeomRect(r *geom.Rect) {
+	c.DrawGeomRect(r)
+	c.Stroke()
+}
+
+func (c *Context) FillGeomRect(r *geom.Rect) {
+	c.DrawGeomRect(r)
+	c.Fill()
+}
+
+//////////////////
+// Circle
+//////////////////
+func (c *Context) DrawGeomCircle(circle *geom.Circle) {
+	c.DrawCircle(circle.Center.X, circle.Center.Y, circle.Radius)
+}
+
+func (c *Context) StrokeGeomCircle(circle *geom.Circle) {
+	c.DrawGeomCircle(circle)
+	c.Stroke()
+}
+
+func (c *Context) FillGeomCircle(circle *geom.Circle) {
+	c.DrawGeomCircle(circle)
+	c.Fill()
+}
