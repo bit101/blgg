@@ -15,6 +15,20 @@ func NewContext(w, h int) *Context {
 	return context
 }
 
+func (c *Context) TranslateCenter() {
+	center := c.Center()
+	c.Translate(center.X, center.Y)
+}
+
+func (c *Context) Center() *gg.Point {
+	w, h := c.Size()
+	return NewPoint(w/2, h/2)
+}
+
+func (c *Context) Size() (float64, float64) {
+	return float64(c.Width()), float64(c.Height())
+}
+
 ////////////////////
 // CLEAR AND SET
 ////////////////////

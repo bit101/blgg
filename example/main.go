@@ -37,8 +37,11 @@ func main() {
 
 func renderFrame(context *blgg.Context, width, height, percent float64) {
 	context.BlackOnWhite()
+	context.Push()
+	context.TranslateCenter()
 	r := blmath.LerpSin(percent, 0, width/2)
-	context.FillCircle(width/2, height/2, r)
+	context.FillCircle(0, 0, r)
+	context.Pop()
 }
 
 func renderSpriteSheetFrame(context *blgg.Context, width, height, percent float64) {
