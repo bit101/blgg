@@ -16,6 +16,10 @@ func NewContext(w, h int) *Context {
 	return context
 }
 
+func NewContextF(w, h float64) *Context {
+	return NewContext(int(w), int(h))
+}
+
 func (c *Context) TranslateCenter() {
 	center := c.Center()
 	c.Translate(center.X, center.Y)
@@ -30,9 +34,9 @@ func (c *Context) Size() (float64, float64) {
 	return float64(c.Width()), float64(c.Height())
 }
 
-////////////////////
+// //////////////////
 // CLEAR AND SET
-////////////////////
+// //////////////////
 func (c *Context) BlackOnWhite() {
 	c.ClearWhite()
 	c.SetBlack()
@@ -43,9 +47,9 @@ func (c *Context) WhiteOnBlack() {
 	c.SetWhite()
 }
 
-////////////////////
+// //////////////////
 // CLEAR
-////////////////////
+// //////////////////
 func (c *Context) ClearBlack() {
 	c.ClearRGB(0, 0, 0)
 }
@@ -89,9 +93,9 @@ func (c *Context) ClearWhite() {
 	c.ClearRGB(1, 1, 1)
 }
 
-////////////////////
+// //////////////////
 // SET
-////////////////////
+// //////////////////
 func (c *Context) SetBlack() {
 	c.SetRGB(0, 0, 0)
 }
@@ -122,4 +126,8 @@ func (c *Context) SetRandomRGB() {
 
 func (c *Context) SetWhite() {
 	c.SetRGB(1, 1, 1)
+}
+
+func (c *Context) SetPixelF(x, y float64) {
+	c.SetPixel(int(x), int(y))
 }
