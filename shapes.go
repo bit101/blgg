@@ -92,11 +92,13 @@ func (c *Context) StrokeCircle(x, y, r float64) {
 // ELLIPSE
 ////////////////////
 
+// FillEllipse draws an ellipse and fills it.
 func (c *Context) FillEllipse(x, y, rx, ry float64) {
 	c.DrawEllipse(x, y, rx, ry)
 	c.Fill()
 }
 
+// StrokeEllipse draws an ellipse and strokes it.
 func (c *Context) StrokeEllipse(x, y, rx, ry float64) {
 	c.DrawEllipse(x, y, rx, ry)
 	c.Stroke()

@@ -1,3 +1,4 @@
+// Package main renders an image, gif or video
 package main
 
 import (
@@ -8,27 +9,27 @@ import (
 )
 
 func main() {
-	target := render.Gif
+	target := render.GifTarget
 
 	switch target {
-	case render.Image:
-		render.RenderImage(800, 800, "out.png", renderFrame, 0.5)
+	case render.ImageTarget:
+		render.Image(800, 800, "out.png", renderFrame, 0.5)
 		render.ViewImage("out.png")
 		break
 
-	case render.SpriteSheet:
-		render.RenderSpriteSheet(40, 40, blcolor.White(), "out.png", 25, renderSpriteSheetFrame)
+	case render.SpriteSheetTarget:
+		render.SpriteSheet(40, 40, blcolor.White(), "out.png", 25, renderSpriteSheetFrame)
 		render.ViewImage("out.png")
 		break
 
-	case render.Gif:
-		render.RenderFrames(400, 400, 60, "frames", renderFrame)
+	case render.GifTarget:
+		render.Frames(400, 400, 60, "frames", renderFrame)
 		render.MakeGIF("ffmpeg", "frames", "out.gif", 30)
 		render.ViewImage("out.gif")
 		break
 
-	case render.Video:
-		render.RenderFrames(1280, 800, 60, "frames", renderFrame)
+	case render.VideoTarget:
+		render.Frames(1280, 800, 60, "frames", renderFrame)
 		render.ConvertToYoutube("frames", "out.mp4", 60)
 		render.VLC("out.mp4", true)
 		break
