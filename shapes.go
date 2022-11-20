@@ -10,11 +10,14 @@ import (
 ////////////////////
 // ARC
 ////////////////////
+
+// FillArc draws an arc and fills it.
 func (c *Context) FillArc(x, y, r, a1, a2 float64) {
 	c.DrawArc(x, y, r, a1, a2)
 	c.Fill()
 }
 
+// StrokeArc draws an arc and strokes it.
 func (c *Context) StrokeArc(x, y, r, a1, a2 float64) {
 	c.DrawArc(x, y, r, a1, a2)
 	c.Stroke()
@@ -23,6 +26,8 @@ func (c *Context) StrokeArc(x, y, r, a1, a2 float64) {
 ////////////////////
 // ARROW
 ////////////////////
+
+// DrawArrow draws and arrow shape.
 func (c *Context) DrawArrow(x0, y0, x1, y1, pointSize float64) {
 	angle := math.Atan2(y1-y0, x1-x0)
 	length := math.Hypot(x1-x0, y1-y0)
@@ -37,11 +42,13 @@ func (c *Context) DrawArrow(x0, y0, x1, y1, pointSize float64) {
 	c.Pop()
 }
 
+// StrokeArrow draws and arrow and strokes it.
 func (c *Context) StrokeArrow(x0, y0, x1, y1, pointSize float64) {
 	c.DrawArrow(x0, y0, x1, y1, pointSize)
 	c.Stroke()
 }
 
+// DrawDoubleArrow draws an arrow shape with points at both ends.
 func (c *Context) DrawDoubleArrow(x0, y0, x1, y1, pointSize float64) {
 	angle := math.Atan2(y1-y0, x1-x0)
 	length := math.Hypot(x1-x0, y1-y0)
@@ -59,6 +66,7 @@ func (c *Context) DrawDoubleArrow(x0, y0, x1, y1, pointSize float64) {
 	c.Pop()
 }
 
+// StrokeDoubleArrow draws an arrow shape with points at both ends and strokes it.
 func (c *Context) StrokeDoubleArrow(x0, y0, x1, y1, pointSize float64) {
 	c.DrawDoubleArrow(x0, y0, x1, y1, pointSize)
 	c.Stroke()
@@ -67,11 +75,14 @@ func (c *Context) StrokeDoubleArrow(x0, y0, x1, y1, pointSize float64) {
 ////////////////////
 // CIRCLE
 ////////////////////
+
+// FillCircle draws a circle and fills it.
 func (c *Context) FillCircle(x, y, r float64) {
 	c.DrawCircle(x, y, r)
 	c.Fill()
 }
 
+// StrokeCircle draws a circle and strokes it.
 func (c *Context) StrokeCircle(x, y, r float64) {
 	c.DrawCircle(x, y, r)
 	c.Stroke()
@@ -80,6 +91,7 @@ func (c *Context) StrokeCircle(x, y, r float64) {
 ////////////////////
 // ELLIPSE
 ////////////////////
+
 func (c *Context) FillEllipse(x, y, rx, ry float64) {
 	c.DrawEllipse(x, y, rx, ry)
 	c.Fill()
@@ -93,6 +105,7 @@ func (c *Context) StrokeEllipse(x, y, rx, ry float64) {
 ////////////////////
 // ELLIPTICAL ARC
 ////////////////////
+
 func (c *Context) FillEllipticalArc(x, y, rx, ry, a1, a2 float64) {
 	c.DrawEllipticalArc(x, y, rx, ry, a1, a2)
 	c.Fill()
@@ -106,6 +119,7 @@ func (c *Context) StrokeEllipticalArc(x, y, rx, ry, a1, a2 float64) {
 ////////////////////
 // FRACTAL LINE
 ////////////////////
+
 func (c *Context) FractalLine(x1, y1, x2, y2, roughness float64, iterations int) {
 	dx := x2 - x1
 	dy := y2 - y1
@@ -140,6 +154,7 @@ func (c *Context) StrokeFractalLine(x1, y1, x2, y2, roughness float64, iteration
 ////////////////////
 // GRID
 ////////////////////
+
 func (c *Context) Grid(x, y, w, h, xres, yres float64) {
 	xx := x
 	yy := y
@@ -159,6 +174,7 @@ func (c *Context) Grid(x, y, w, h, xres, yres float64) {
 ////////////////////
 // GUIDES
 ////////////////////
+
 func (c *Context) DrawAxes() {
 	w, h := c.Size()
 	c.MoveTo(0, -h)
@@ -179,6 +195,7 @@ func (c *Context) DrawOrigin(size float64) {
 ////////////////////
 // HEART
 ////////////////////
+
 func (c *Context) Heart(x, y, w, h, r float64) {
 	c.Push()
 	c.Translate(x, y)
@@ -208,6 +225,7 @@ func (c *Context) StrokeHeart(x, y, w, h, r float64) {
 ////////////////////
 // HEX GRID
 ////////////////////
+
 func (c *Context) HexGrid(x, y, w, h, res0, res1 float64) {
 	sin60r := math.Sin(math.Pi/3.0) * res0
 	xInc := 2.0 * sin60r
@@ -270,6 +288,7 @@ func (c *Context) LineThrough(x0, y0, x1, y1, overlap float64) {
 ////////////////////
 // MULTI CURVE
 ////////////////////
+
 func (c *Context) MultiCurve(points []*geom.Point) {
 	c.MoveTo(points[0].X, points[0].Y)
 	mid := geom.MidPoint(points[0], points[1])
@@ -295,6 +314,7 @@ func (c *Context) StrokeMultiCurve(points []*geom.Point) {
 ////////////////////
 // MULTI LOOP
 ////////////////////
+
 func (c *Context) MultiLoop(points []*geom.Point) {
 	pA := points[0]
 	pZ := points[len(points)-1]
@@ -324,6 +344,7 @@ func (c *Context) StrokeMultiLoop(points []*geom.Point) {
 ////////////////////
 // PATH
 ////////////////////
+
 func (c *Context) Path(points []*geom.Point) {
 	for _, point := range points {
 		c.LineTo(point.X, point.Y)
@@ -346,6 +367,7 @@ func (c *Context) StrokePath(points []*geom.Point, close bool) {
 ////////////////////
 // POINT
 ////////////////////
+
 func (c *Context) StrokePoint(x, y, r float64) {
 	c.DrawPoint(x, y, r)
 	c.Stroke()
@@ -365,6 +387,7 @@ func (c *Context) Points(points []*geom.Point, radius float64) {
 ////////////////////
 // RAY
 ////////////////////
+
 func (c *Context) Ray(x, y, angle, offset, length float64) {
 	c.Push()
 	c.Translate(x, y)
@@ -378,6 +401,7 @@ func (c *Context) Ray(x, y, angle, offset, length float64) {
 ////////////////////
 // RECTANGLE
 ////////////////////
+
 func (c *Context) FillRectangle(x, y, w, h float64) {
 	c.DrawRectangle(x, y, w, h)
 	c.Fill()
@@ -391,6 +415,7 @@ func (c *Context) StrokeRectangle(x, y, w, h float64) {
 ////////////////////
 // REGULAR POLYGON
 ////////////////////
+
 func (c *Context) FillRegularPolygon(n int, x, y, r, rot float64) {
 	c.DrawRegularPolygon(n, x, y, r, rot)
 	c.Fill()
@@ -404,6 +429,7 @@ func (c *Context) StrokeRegularPolygon(n int, x, y, r, rot float64) {
 ////////////////////
 // RIGHT TRIANGLE
 ////////////////////
+
 func (c *Context) DrawRightTriangle(x, y, w, h, r float64) {
 	c.Push()
 	c.Translate(x, y)
@@ -428,6 +454,7 @@ func (c *Context) FillRightTriangle(x, y, w, h, r float64) {
 ////////////////////
 // ROUNDED RECTANGLE
 ////////////////////
+
 func (c *Context) FillRoundedRectangle(x, y, w, h, r float64) {
 	c.DrawRoundedRectangle(x, y, w, h, r)
 	c.Fill()
@@ -441,6 +468,7 @@ func (c *Context) StrokeRoundedRectangle(x, y, w, h, r float64) {
 ////////////////////
 // STAR
 ////////////////////
+
 func (c *Context) Star(x, y, r0, r1 float64, points int, rotation float64) {
 	c.Push()
 	c.Translate(x, y)
