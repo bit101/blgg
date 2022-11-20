@@ -1,3 +1,4 @@
+// Package render has functions that render gifs, images, videos, etc.
 package render
 
 import (
@@ -9,6 +10,7 @@ import (
 	"runtime"
 )
 
+// MakeGIF creates an animated gif with the given tool.
 func MakeGIF(tool, folder, outFileName string, fps float64) {
 	os.RemoveAll(outFileName)
 	if tool == "convert" {

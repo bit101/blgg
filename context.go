@@ -1,3 +1,4 @@
+// Package blgg is the main package for this module.
 package blgg
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/fogleman/gg"
 )
 
+// Context represents the drawing context.
 type Context struct {
 	gg.Context
 	ClampColors bool
@@ -33,7 +35,7 @@ func (c *Context) TranslateCenter() {
 	c.Translate(center.X, center.Y)
 }
 
-// Context returns a point representing the center of the image.
+// Center returns a point representing the center of the image.
 func (c *Context) Center() *geom.Point {
 	w, h := c.Size()
 	return geom.NewPoint(w/2, h/2)
