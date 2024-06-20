@@ -1,3 +1,6 @@
+deprecated. using https://github.com/bit101/blcairo
+
+
 # blgg
 
 bitlib library for `gg` (https://github.com/fogleman/gg)
